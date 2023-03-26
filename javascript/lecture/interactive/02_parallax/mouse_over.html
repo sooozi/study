@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>03. transfrom, translate 값 변경</title>
+    <style>
+        body, html {
+            background-color: black;
+            position: relative;
+            cursor: none;
+            overflow: hidden;
+            height: 100%;
+        }
+        h1 {
+            color: #fff;
+        }
+        
+        .human {
+            position: absolute;
+            left: calc(50% - 150px);
+            width: 300px;
+            z-index: 100;
+        }
+    </style>
+    <script>
+        let human;
+        let bg;
+        let x = 0;
+        let y = 0;
+        let mx = 0;
+        let my = 0;
+        let speed = 0.009;
+
+        window.onload = function() {
+            h1 = document.getElementsByTagName("h1")[0];
+            human = document.getElementsByClassName("human")[0];
+            bg = document.getElementsByClassName("bg")[0];
+
+            window.addEventListener("mousemove", mouseFunc, false);
+            
+            function mouseFunc (e) {
+                x = (e.clientX - window.innerWidth / 2);
+                y = (e.clientY - window.innerHeight / 2);
+                
+                //cursor_item.style.transform = "translate("+e.clientX+"px," + e.clientY +"px)";
+                //console.log(e.clientX, e.clientY);
+            }
+            
+            loop();
+            
+        }
+        //clientX
+        //브라우저에서 사용자에게 웹페이지가 보여지는 영역을 기준으로 좌표를 표시합니다.
+        //따라서, 스크롤바가 움직이더라도, 특정 지점의 clientX, clientY의 값은 동일합니다.
+        //https://hianna.tistory.com/493
+        
+        //let i = 0;
+        function loop(){
+            //console.log(x, y);
+
+            mx += (x - mx) * speed;
+            my += (y - my) * speed;
+            //숫자가 작을 수록 늦게 따라옴
+
+            //console.log(x, mx)
+
+            h1.innerHTML = `x: ${x} mx : ${mx}`;
+            
+            human.style.transform = `translate(${-mx/6}px, ${-my/6}px)`;
+            bg.style.transform = `translate(${mx/2}px, ${my/2}px)`;
+
+            window.requestAnimationFrame(loop);
+        }
+        
+        
+    </script>
+</head>
+<body>
+    <h1>test</h1>
+
+    <img src="/section02/3d_text/layer-7.png" class="human" alt="사람">
+    <img src="/section02/3d_text/layer-1.jpg" class="bg" alt="벽">
+
+</body>
+</html>
