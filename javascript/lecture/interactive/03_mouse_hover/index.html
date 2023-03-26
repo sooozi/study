@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>inflearn section3 : blend-mode, multiply, 스크립트 설명</title>
+
+    <style>
+        body {
+            background: #ffffff;
+            overflow: hidden;
+            cursor: none;
+            height: 100vh;
+            margin: 0;
+        }
+        .cursorItem {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            pointer-events: none;
+            mix-blend-mode: multiply;
+            /* opacity: .5; */
+        }
+
+        .cursorItem .circle {
+            position: fixed;
+            display: block;
+            width: 120px;
+            height: 120px;
+            margin: -60px 0 0 -60px;
+            background: #ffd900;
+            border-radius: 50%;
+            transition: all .2s ease-in-out;
+        }
+
+        .gate-box {
+            position: absolute;
+            top: 40%;
+            left: calc(50% - 200px);
+            width: 400px;
+            border: 2px solid #000000;
+        }
+
+        .gate-box .top {
+            /* border: 2px solid #000000; */
+            border-bottom: none;
+            padding: 5px;
+        }
+
+        .gate-box .top p {
+            text-align: center;
+            color: #367ab9;
+            font-size: 20px;
+        }
+
+        .gate-box p {
+            font-size: 20px;
+            color: #fff;
+        }
+
+        .gate-box .bottom {
+            border-top: 2px solid #000000;
+        }
+
+        .gate-box .bottom .inner {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr;
+        }
+
+        .gate-box .bottom a {
+            font-size: 20px;
+            color: #367ab9;
+            width: 100%;
+            text-align: center;
+            display: inline-block;
+            text-decoration: none;
+            padding: 20px 0;
+            transition: all .3s ease;
+            box-sizing: inherit;
+            cursor: none;
+        }
+
+        .gate-box .bottom a:hover {
+            background: #c3dcea;
+            color: #a0094b;
+            font-weight: bold;
+        }
+
+        .gate-box .bottom #answerYes {
+            border-right: 2px solid #000000;
+        }
+
+        .gate-box .bottom #answerNo {
+            border-left: 2px solid #000000;
+            box-sizing: border-box;
+        }
+
+    </style>
+
+<script>
+    let btn_yes;
+    let btn_no;
+    let cursorItem;
+    let circle;
+    let x=0, y = 0;
+    let mx=0, my = 0;
+
+    window.onload = function(){
+        btn_yes = document.querySelector("#answerYes");
+        btn_no = document.querySelector("#answerNo");
+
+        cursorItem = document.querySelector(".cursorItem");
+        circle = cursorItem.querySelector(".circle");    
+
+        //네 버튼 이벤트
+        btn_yes.addEventListener("mouseover", function(e){
+            circle.style.transform = "scale(.3)";
+        })
+        btn_yes.addEventListener("mouseout", function(e){
+            circle.style.transform = "scale(1)";
+        })
+
+        //아니오 버튼 이벤트
+        btn_no.addEventListener("mouseover", function(e){
+            circle.style.transform = "scale(.3)";
+        })
+        btn_no.addEventListener("mouseout", function(e){
+            circle.style.transform = "scale(1)";
+        })
+
+        window.addEventListener("mousemove", function(e){
+            x = e.clientX;
+            y = e.clientY;
+            //cursorItem.style.transform = "translate("+ x +"px, "+ y + "px )";
+        });
+        
+        loop();
+    }
+
+    function loop(){
+        mx += (x - mx ) * .09;
+        my += (y - my ) * .09; 
+        cursorItem.style.transform = "translate("+ mx +"px, "+ my + "px )";
+
+        requestAnimationFrame(loop);
+    }
+</script>
+</head>
+<body>
+    <div class="cursorItem">
+        <span class="circle"></span>
+    </div>
+
+    <div class="gate-box">
+        <div class="top">
+            <p>마스크를 쓰고 있나요?</p>
+        </div>
+        <div class="bottom">
+            <div class="inner">
+                <a href="/#yes" id="answerYes">네</a>
+                <a href="/#no" id="answerNo">아니요</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
