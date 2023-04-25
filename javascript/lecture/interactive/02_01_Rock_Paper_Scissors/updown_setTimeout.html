@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>랜덤 업다운 게임 - 초기화, setTimeout</title>
+
+  <style>
+    body {
+      height: 100vh;
+      background: linear-gradient(120deg, #fff7d8, #fffa9f);
+    }
+    .contWrap {
+      position: relative;
+      width: 400px;
+      background: #ffffff93;
+      padding: 20px;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+      text-align: center;
+      border-radius: 20px;
+    }
+    input {
+      padding: 10px 20px;
+      font-size: 20px;
+      text-align: center;
+      max-width:  170px;
+    }
+    button {
+      font-size: 20px;
+      padding: 8px 20px;
+    }
+  </style>
+
+  <script>
+    //변수, 조건문 if, 배열, setTimeout
+
+    window.onload = function(){
+      let input = document.getElementsByTagName("input")[0];
+      let result = document.querySelector(".result");
+      let button = document.querySelector(".startBtn");
+
+      button.addEventListener('click', function(){
+        resultFunc();
+      })
+
+      let resultArr = ["업", "다운", "정답!"];
+      let randomNum = returnNum(50); //Math.round(Math.random()*10); //10까지라서 10을 곱함!
+
+      function resultFunc(){
+        let value = input.value;
+
+        if(value < randomNum){ //정답이 값보다 크면
+          result.innerHTML = resultArr[0];
+        }else if(value > randomNum) {
+          result.innerHTML = resultArr[1];
+        } else {
+          //정답
+          result.innerHTML = resultArr[2];
+          alert("정답입니다.");
+
+          //1초 뒤 리셋
+          setTimeout(function(){
+            resultFunc()
+          }, 1000);
+
+          //setTimeout(비동기) 짧은 ver
+          setTimeout(resultFunc, 1000);
+        }
+
+        //초기화
+        function resultFunc(){
+          input.value = 1;
+          result.innerHTML = "한 판 더! (1부터 50사이 정수)";
+          // randomNum = Math.round(Math.random()*10);
+          randomNum = returnNum(50);
+        }
+
+        //랜덤 넘버 리턴
+        function returnNum(num) {
+          return Math.round(Math.random()*num);
+        }
+
+        //업그레이드.ver - 삼항조건연산자 & 이크마6
+        result.innerHTML = value < randomNum ? resultArr[0] 
+                        : value > randomNum ? resultArr[1] 
+                        : (setTimeout(resetFunc, 1000), resultArr[2]);
+
+        //setTimeout 함수는 비동기 함수이므로, 삼항 연산자에서 사용할 때는
+        //조건에 따라 각각 다른 함수가 호출되므로 실행 순서가 보장되지 않을 수 있습니다.
+        //만약 실행 순서를 보장해야 한다면, if/else문을 사용하는 것이 더 안전합니다.
+
+
+        //문제 1 - 삼항연산자
+        // let x = 10;
+        // let y;
+
+        // x < 0 ? y = "양수"
+        // : y = "음수 또는 0";
+
+        // let y = x > 0 ? "양수" : "음수 또는 0";
+
+        // if (x > 0) {
+        //   y = "양수";
+        // } else {
+        //   y = "음수 또는 0";
+        // }
+
+       //문제2
+      //  let result;
+      //   if (score >= 60) {
+      //     result = "합격";
+      //   } else {
+      //     result = "불합격";
+      //   }
+
+      //   let result = score >= 60 ? "합격" : "불합격";
+
+      //문제3
+      // let isAdmin = false;
+      // let message;
+      // if (isAdmin) {
+      //   message = "관리자 권한이 있습니다.";
+      // } else {
+      //   message = "관리자 권한이 없습니다.";
+      // }
+      // let message = isAdmin ? "관리자 권한이 있습니다." : "관리자 권한이 없습니다."
+
+
+      //문제4 - 중첩if문을 삼항 연산자로 바꾸기
+      // let x = 10;
+      // let y;
+      
+      // if (x > 0) {
+      //   if (x > 5) {
+      //     y = "10보다 큰 수";
+      //   } else {
+      //     y = "5 이하의 수";
+      //   }
+      // } else {
+      //   y = "0 또는 음수";
+      // };
+
+      // let y = x > 0 ? (x > 5 ? "10보다 큰 수" : "5 이하의 수" ) : ("0 또는 음수"); 
+      //let y = x > 0 ? (x > 5 ? "10보다 큰 수" : "5 이하의 수") : "0 또는 음수"; => gpt 정답!
+      }
+    }
+  </script>
+
+
+</head>
+<body>
+
+
+  <div class="contWrap">
+    <h3>내가 생각한 숫자는 몇 일까요?</h3>
+    <p class="result">(1부터 10까지)</p>
+    <input type="number" value="1" max="10" min="1">
+    <button type="button" class="startBtn">확인</button>
+  </div>
+
+
+
+</body>
+</html>

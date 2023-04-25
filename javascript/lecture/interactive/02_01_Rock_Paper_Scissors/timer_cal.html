@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  
+  <style>
+    button {
+      font-size: 10px;
+      padding: 8px 20px;
+    }
+  </style>
+  <script> 
+    //타이머
+
+    window.onload = function(){
+
+      let num = document.querySelector(".num");
+      let button = document.querySelector(".startBtn");
+
+      button.addEventListener("click", function(){
+        interval();
+      })
+
+      let timer;
+
+      function interval() {
+        clearInterval(timer);//없으면 중첩이 됨!
+
+        let secNum = 0;
+        timer = setInterval(function(){
+          secNum ++;
+          num.innerHTML = secNum;
+        }, 10)
+      }
+    }
+
+  </script>
+</head>
+<body>
+  <div class="contWrap">
+    <button class="startBtn">더하기 시작</button>
+    <h1 class="num">0</h1>
+  </div>
+</body>
+</html>
